@@ -23,19 +23,19 @@
 
 def find_angelina
   #find Angelina Jolie by name in the actors table
-
+  Actor.find_by(name: 'Angelina Jolie')
 end
 
 def top_titles
   # get movie titles from movies with scores greater than or equal to 9
   # hint: use 'select' and 'where'
-
+  Movie.select(:title).where('score >= ?', 9)
 end
 
 def star_wars
   #display the id, title and year of each Star Wars movie in movies.
   # hint: use 'select' and 'where'
-
+  Movie.select(:id, :title, :yr).where("title LIKE 'Star Wars%'")
 end
 
 
@@ -44,6 +44,14 @@ def below_average_years
   #with the count of movies scoring under 5 aliased as bad_movies,
   #in descending order
   # hint: use 'select', 'where', 'group', 'order'
+
+  Movie.all(:select => "movies.yr, count(movies.yr) as bad_movies", :group => "movies.yr")
+
+  Movie.select(:yr, count).where("score < 5").group(:yr).count(:yr)
+
+  Movie.all(:group  => "yr",:select => "yr, COUNT(yr) as count")
+
+  Movie.select("yr, COUNT(yr) AS bad_movies").where("score < 5").group(:yr)
 
 end
 
@@ -54,13 +62,14 @@ def alphabetized_actors
   # are alphabetized differently than the specs.
   # This spec might fail for Ubuntu users. It's ok!
 
+  Actor.all.order(name: :asc).limit(10)
 end
 
 def pulp_fiction_actors
   # practice using joins
   # display the id and name of all actors in the movie Pulp Fiction
   # hint: use 'select', 'joins', 'where'
-
+  Movie.find_by_title("Pulp Fiction").actors
 end
 
 def uma_movies
@@ -68,5 +77,6 @@ def uma_movies
   # display the id, title, and year of movies Uma Thurman has acted in
   # order them by ascending year
   # hint: use 'select', 'joins', 'where', and 'order'
-
+  # Movie.select('movies.*, castings.*, actors.*').joins(:castings).joins(:actors).where("actors.name = 'Uma Thurman'")
+  Actor.find_by_name("Uma Thurman").movies.select(:id, :title, :yr).order(yr: :asc)
 end
