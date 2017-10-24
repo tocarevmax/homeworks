@@ -1,0 +1,33 @@
+<h1>All the books!</h1>
+
+
+<!-- from this : -->
+<ul>
+  <% @books.each do |book| %>
+    <li><%= book.title %> by <%= book.author %></li>
+  <% end %>
+</ul>
+
+<!-- to this: -->
+
+<!-- render 'partial_name', create_local_variable_for_book_partial: book (comes from block) -->
+<ul>
+  <% @books.each do |book| %>
+    <li><% render 'book', book: book %></li>
+  <% end %>
+</ul>
+
+<!-- to this -->
+
+<!-- it will find the partial and match local variable for you -->
+<ul>
+  <% @books.each do |book| %>
+    <li><% render book %></li>
+  <% end %>
+</ul>
+
+<!-- to this -->
+<!-- it will run each on each element of @books and match it's partial -->
+<ul>
+  <%= render @books %>
+</ul>

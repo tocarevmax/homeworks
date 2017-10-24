@@ -1,0 +1,63 @@
+<h1>Edit Book</h1>
+
+<!--
+  Things to change:
+    - action because edit has book_url(@book), while new is book_url - no referrence to any specific book - because we haven't created it yet
+
+    - hidden input needs to change, because edit's method is PATCH and new method is POST
+
+    - submit button, because edit should say 'update book', while new should say 'create book'
+
+    - change all @book to book because we have that as local variable going on
+-->
+
+<!-- we are simply creating local variable action_url to book_url(book) (think books/:id) or book_url (think book/)
+we also can call book instance variable because that's what our edit_dry passed on to us -->
+
+<% if action == :edit %>
+  <% action_url = book_url(book) %>
+<% else %>
+  <% action_url = books_url %>
+<% end %>
+
+<!-- we have changed action to action_url as defined earlier in if statement -->
+<form action="<% action_url %>" method="post">
+
+  <!-- what this does, is that it checks whether action is :edit, if it is, this condition will be met and whatever is provisioned in the body of if-statement, will be executed. it will set method-PATCH
+
+  otherwise, this line simply won't be executed and the script will skip it, thus keeping method="post" from previous form tag -->
+  <% if action == :edit %>
+  <input type="hidden" name="_method" do we need _??? value="PATCH">
+  <% end %>
+
+  <label for="title">Title</label>
+  <input id="title" type="text" name="book[title]" value="<%= book.title  %>">
+
+
+  <label for="author">Author</label>
+  <input id="author" type="text" name="book[author]" value="<%= book.author  %>">
+
+  <label for="year">Year</label>
+  <input id="year" type="text" name="book[year]" value="<%= book.year  %>">
+
+  <label for="category">Category</label>
+  <select id="category" name="book[category]">
+
+    <!-- we have modified disabled tag to get automatically selected in case if our book.category is nil, thus, it is a new book, otherwise, it will produce an empty string, and some other option will probably get selected by passing its corresponding ternary operator -->
+    <option disabled <%= book.category == nil ? "selected" : ""  %>>--please select genre--</option>
+
+    <option value="Fiction" <%= book.category == "Fiction" ? "selected" : "" %> >Fiction</option>
+    <option value="Non-Fiction" <%= book.category = "Non-Fiction" ? "selected" : "" %> >Non-Fiction</option>
+  </select>
+
+
+  <label for="description">Description</label>
+  <textarea id="description" name="book[description]">
+    <%= book.description %>
+  </textarea>
+
+  <!-- ternary operator for that one -->
+
+  <input type="submit" value="<%= (action == "edit") ? 'edit book' : 'new book'  %>">
+
+</form>

@@ -1,0 +1,44 @@
+<h1>Edit Book</h1>
+
+<!-- <form action="/books/:id" method="PATCH"> -->
+<!-- it turns out that browsers can only receive PUT and POST methods. we can't just put method="PATCH" here  -->
+<!-- instead, we are going to use a work-around. we will create a hidden input tag right after our original form tag. -->
+<form action="<% book_url(@book) %>" method="post">
+  <!-- it will have type="hidden", so it doesn't pop up in the user's rendered view
+name="method" and value="PATCH" should create a key-value pair in our params -->
+  <input type="hidden" name="method" value="PATCH">
+
+  <!-- now you can prefill most of the field by specifying value = "<%= @book.column_name  %>" -->
+
+  <label for="title">Title</label>
+  <input id="title" type="text" name="book[title]" value="<%= @book.title  %>">
+
+
+  <label for="author">Author</label>
+  <input id="author" type="text" name="book[author]" value="<%= @book.author  %>">
+
+  <label for="year">Year</label>
+  <input id="year" type="text" name="book[year]" value="<%= @book.year  %>">
+
+  <label for="category">Category</label>
+  <select id="category" name="book[category]">
+    <!-- we have removed selected option from disabled option because we will already have another one selected -->
+    <option disabled>--please select genre--</option>
+
+<!-- inside of each option tag, we have included <%= %> tag with ternary operator that checks if description value of @book is already matching value of the option -- if so, we will input "selected" string into the tag, thus making it selected.
+otherwise, we will render an empty string "", which will effectively make our option tag unaffected -->
+<!-- <%= @book.category == "Fiction" ? "selected" : "" %> -->
+
+    <option value="Fiction" <%= @book.category == "Fiction" ? "selected" : "" %> >Fiction</option>
+    <option value="Non-Fiction" <%= @book.category = "Non-Fiction" ? "selected" : "" %> >Non-Fiction</option>
+  </select>
+
+  <!-- you can't put value parameter into textarea tag. but you can see that textarea has open and close tags. simply erb <%= @book.description %> between <textarea></textarea> tags -->
+  <label for="description">Description</label>
+  <textarea id="description" name="book[description]">
+    <%= @book.description %>
+  </textarea>
+
+  <input type="submit" value="Commit changes">
+
+</form>

@@ -1,0 +1,71 @@
+<h1>Add book to library</h1>
+
+<!-- do form TAB, it will autocomplete -->
+<!-- here's the defaut tab attributes -->
+<!-- <form class="" action="index.html" method="post"> -->
+<!-- we have deleted class, it is for CSS -->
+<!-- action: url to which we want to send data -->
+<!-- method: http method that we want to use -->
+<!-- since we are doing new.html.erb, our originating http request was:
+GET /books/new -->
+<!-- from /books/new we are trying to get to:
+POST /books - books#create -->
+<!-- we will accomplish this by changing:
+action to '/books'
+and
+method to 'post' -->
+
+<!-- this is another way to syntax it
+books_url is url_helper method, it is ruby-embedded using <%= %> -->
+<form action="<%= books_url  %>" method="post"></form>
+<form  action="/books" method="post">
+  <!-- label for and input id have to match -->
+  <!-- Title between the brackets is the text that we want our user to see -->
+  <label for="title">Title</label>
+  <!-- input TAB default value -->
+  <!-- <input type="text" name="" value=""> -->
+  <!-- input="text" will give us an empty text box to fill with text -->
+  <!-- we don't need name, we delete it for now
+  we don't need value for now -->
+  <!-- we have added id="title" because our label for and input type need to match -->
+  <!-- name="title" is pretty much a key of the params -->
+  <!-- we have actually changed all names into nested book[key] since it is convention for naming keys in Rails -->
+  <input id="title" type="text" name="book[title]">
+
+  <!-- label for="author" and input id="author" have to match -->
+  <!-- name="author" is the key in our params -->
+  <label for="author">Author</label>
+  <input id="author" type="text" name="book[author]" >
+
+  <label for="year">Year</label>
+
+  <!-- type="date"  this would give us a calendar-select-->
+  <input id ="year" type="text" name="book[year]">
+
+  <!-- select tag will give us a drop-down menu -->
+  <!-- we don't need class here again -->
+  <label for="category">Category</label>
+  <select id="category" name="book[category]">
+    <!-- option are options for drop-down menu -->
+    <!-- value="Fiction" is going to be value for key book[category] in params -->
+    <!-- >Fiction< is the text for drop-down option -->
+    <!-- previous two will need to match for ... common sense :) -->
+    <!-- we will create a default option value, so it doesn't defaul to the first available -->
+    <!-- option disabled - won't allow a user to submit a form with it selected
+    option selected - will make it default value until user changes it to some other option -->
+    <option disabled selected>-- Please Select --</option>
+    <option value="Fiction">Fiction</option>
+    <option value="Non-Fiction">Non-Fiction</option>
+    <option value="Drama">Drama</option>
+
+  </select>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="book[description]"></textarea>
+
+
+
+  <!-- type="submit" will create a submit button -->
+  <!-- value="Add a book" will be the text displayed on the button -->
+  <input type="submit" value="Add a book">
+</form>

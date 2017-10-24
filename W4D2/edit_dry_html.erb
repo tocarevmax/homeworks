@@ -1,0 +1,7 @@
+<h1>Edit book in Library!</h1>
+
+<!-- do not use underscore when rendering partial, Rail already knows that you are referring to a partial.
+book: @book creates a local variable book that will refer to @book -->
+<!-- you keep passing any kinds of local variables that you want to create
+action: :edit will check what kind of action we are trying to do. in this case, since we are doing edit_dry.html.erb, action is edit -->
+<%= render 'form', book: @book, action: :edit %>
